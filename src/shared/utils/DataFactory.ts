@@ -1,13 +1,38 @@
-import { faker } from '@faker-js/faker'
-import { TestUser, TestProduct } from '../types'
-import { ITestDataFactory } from '../../core/interfaces'
+import type { ITestDataFactory } from '../../core/interfaces'
+import type { TestUser, TestProduct } from '../types'
+
+function randomString(length = 8): string {
+  return Math.random().toString(36).substring(2, length + 2)
+}
+
+function randomPrice(): number {
+  return parseFloat((Math.random() * 999 + 1).toFixed(2))
+}
+
+const firstNames = ['Alice', 'Bob', 'Carol', 'David', 'Eva', 'Frank', 'Grace', 'Henry']
+const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller']
+const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'test.com']
+const categories = ['Electronics', 'Clothing', 'Books', 'Home', 'Sports', 'Toys']
+
+function randomItem<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
+function generateName(): string {
+  return randomItem(firstNames) + ' ' + randomItem(lastNames)
+}
+
+function generateEmail(name: string): string {
+  return name.toLowerCase().replace(' ', '.') + randomString(4) + '@' + randomItem(domains)
+}
 
 export class UserFactory implements ITestDataFactory<TestUser> {
   create(overrides?: Partial<TestUser>): TestUser {
+    const name = generateName()
     return {
-      name: faker.person.fullName(),
-      email: faker.internet.email().toLowerCase(),
-      password: 'Test@' + faker.internet.password({ length: 8 }),
+      name,
+      email: generateEmail(name),
+      password: 'Test@' + randomString(8),
       role: 'user',
       ...overrides,
     }
@@ -29,10 +54,10 @@ export class UserFactory implements ITestDataFactory<TestUser> {
 export class ProductFactory implements ITestDataFactory<TestProduct> {
   create(overrides?: Partial<TestProduct>): TestProduct {
     return {
-      name: faker.commerce.productName(),
-      price: parseFloat(faker.commerce.price({ min: 1, max: 1000 })),
-      category: faker.commerce.department(),
-      description: faker.commerce.productDescription(),
+      name: 'Product ' + randomString(6),
+      price: randomPrice(),
+      category: randomItem(categories),
+      description: 'Description for product ' + randomString(4),
       ...overrides,
     }
   }
