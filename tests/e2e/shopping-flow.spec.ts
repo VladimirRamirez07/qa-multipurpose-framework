@@ -78,7 +78,7 @@ test.describe('@e2e @critical Shopping Flow', () => {
     const updatedUser = userFactory.create()
     const updated = await apiClient.updateUser(1, {
       name: updatedUser.name,
-    }) as { name: string; id: number }
+    }) as unknown as { name: string; id: number }
     expect(updated.name).toBe(updatedUser.name)
     expect(updated.id).toBeDefined()
 
