@@ -1,4 +1,3 @@
-@"
 # 🧪 QA Multipurpose Framework
 
 > Enterprise-grade test automation ecosystem covering **Web**, **API** and **Mobile** from a single repository, applying SOLID principles and clean architecture.
@@ -79,8 +78,7 @@ This framework demonstrates how a single repository can serve as the backbone fo
 ---
 
 ## 📁 Project Structure
-
-\`\`\`
+```
 qa-multipurpose-framework/
 ├── 📁 src/
 │   ├── 📁 web/
@@ -118,8 +116,7 @@ qa-multipurpose-framework/
 ├── playwright.config.ts    # Main Playwright config
 ├── tsconfig.json           # TypeScript config
 └── package.json            # Scripts & dependencies
-\`\`\`
-
+```
 ---
 
 ## 🚀 Getting Started
@@ -133,7 +130,7 @@ qa-multipurpose-framework/
 
 ### Installation
 
-\`\`\`bash
+```bash
 # Clone the repository
 git clone https://github.com/VladimirRamirez07/qa-multipurpose-framework.git
 cd qa-multipurpose-framework
@@ -146,13 +143,13 @@ npx playwright install
 
 # Configure environment
 cp .env.example .env
-\`\`\`
+```
 
 ---
 
 ## ▶️ Running Tests
 
-\`\`\`bash
+```bash
 # Web tests (all browsers)
 npm run test:web
 
@@ -177,7 +174,7 @@ npm run test:staging
 
 # Cloud (BrowserStack)
 npm run test:browserstack
-\`\`\`
+```
 
 ---
 
@@ -185,7 +182,7 @@ npm run test:browserstack
 
 This framework uses **Allure Reports** for rich, interactive test reporting with screenshots, videos, and step-by-step logs.
 
-\`\`\`bash
+```bash
 # Generate report
 npm run allure:generate
 
@@ -194,7 +191,7 @@ npm run allure:open
 
 # Live serve
 npm run allure:serve
-\`\`\`
+```
 
 ---
 
@@ -243,4 +240,3 @@ GitHub Actions pipelines run automatically on every push and pull request:
 ---
 
 *Built with ❤️ and a lot of ☕*
-"@ | Set-Content README.md -Encoding UTF8
