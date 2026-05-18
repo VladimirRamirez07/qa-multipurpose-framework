@@ -20,12 +20,12 @@ export class Container {
   }
 
   resolve<T>(token: string): T {
-    const instance = this.registry.get(token)
-    if (!instance) {
-      throw new Error(No instance registered for token: )
-    }
-    return instance as T
+  const instance = this.registry.get(token)
+  if (!instance) {
+    throw new Error('No instance registered for token: ' + token)
   }
+  return instance as T
+}
 
   has(token: string): boolean {
     return this.registry.has(token)
