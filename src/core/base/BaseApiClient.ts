@@ -11,12 +11,12 @@ export abstract class BaseApiClient implements IApiClient {
   }
 
   protected buildUrl(endpoint: string): string {
-    return ${this.baseUrl}
+   return this.baseUrl + endpoint
   }
 
   protected async handleResponse<T>(response: APIResponse): Promise<T> {
     if (!response.ok()) {
-      throw new Error(API Error:   - )
+      throw new Error('API Error: ' + response.status() + ' ' + response.statusText())
     }
     return response.json() as Promise<T>
   }
