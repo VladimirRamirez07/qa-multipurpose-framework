@@ -1,0 +1,39 @@
+{
+  "name": "qa-multipurpose-framework",
+  "version": "1.0.0",
+  "description": "Enterprise-grade test automation framework covering Web, API & Mobile from a single repository. Built with TypeScript, Playwright, Appium, Allure & BrowserStack following SOLID principles.",
+  "author": "Vladimir Ramirez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VladimirRamirez07/qa-multipurpose-framework.git"
+  },
+  "scripts": {
+    "test:web": "cross-env ENV=qa playwright test tests/web",
+    "test:api": "cross-env ENV=qa playwright test tests/api",
+    "test:mobile": "cross-env ENV=qa playwright test tests/mobile",
+    "test:e2e": "cross-env ENV=qa playwright test tests/e2e",
+    "test:all": "cross-env ENV=qa playwright test",
+    "test:dev": "cross-env ENV=dev playwright test",
+    "test:staging": "cross-env ENV=staging playwright test",
+    "test:parallel": "cross-env ENV=qa playwright test --workers=4",
+    "test:browserstack": "cross-env ENV=browserstack playwright test",
+    "allure:generate": "allure generate reports/allure --clean -o reports/allure-report",
+    "allure:open": "allure open reports/allure-report",
+    "allure:serve": "allure serve reports/allure",
+    "report": "npm run allure:generate && npm run allure:open",
+    "compile": "tsc --noEmit",
+    "lint": "eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0",
+    "allure-commandline": "^2.41.0",
+    "allure-playwright": "^3.8.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,6 @@
+﻿export const config = {
+  baseUrl: process.env.BASE_URL || 'https://dev.example.com',
+  apiUrl: process.env.API_URL || 'https://api-dev.example.com',
+  timeout: 30000,
+  retries: 1,
+}
