@@ -29,11 +29,13 @@
     "@faker-js/faker": "^10.4.0",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.8.0",
+    "@wdio/globals": "^9.27.1",
     "allure-commandline": "^2.41.0",
     "allure-playwright": "^3.8.0",
     "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "webdriverio": "^9.27.1"
   }
 }
