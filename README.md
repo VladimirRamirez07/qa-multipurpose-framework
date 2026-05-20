@@ -4,7 +4,7 @@
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-1.60-45ba4b?style=for-the-badge&logo=playwright&logoColor=white)
-![Appium](https://img.shields.io/badge/Appium-2.x-662d91?style=for-the-badge&logo=appium&logoColor=white)
+![Appium](https://img.shields.io/badge/Appium-3.4.2-662d91?style=for-the-badge&logo=appium&logoColor=white)
 ![Allure](https://img.shields.io/badge/Allure-Reports-orange?style=for-the-badge&logo=qase&logoColor=white)
 ![BrowserStack](https://img.shields.io/badge/BrowserStack-Integrated-f48024?style=for-the-badge&logo=browserstack&logoColor=white)
 ![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
@@ -21,6 +21,7 @@
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [Running Tests](#-running-tests)
+- [Mobile Testing](#-mobile-testing)
 - [Reporting](#-reporting)
 - [Environments](#-environments)
 - [CI/CD Pipeline](#-cicd-pipeline)
@@ -30,13 +31,14 @@
 
 ## 🎯 Overview
 
-This framework demonstrates how a single repository can serve as the backbone for an entire QA organization. It provides a unified, scalable, and maintainable test automation solution across three testing layers:
+This framework demonstrates how a single repository can serve as the backbone for an entire QA organization. It provides a unified, scalable, and maintainable test automation solution across four testing layers:
 
 | Layer | Tool | Coverage |
 |-------|------|----------|
 | 🌐 **Web** | Playwright + POM | UI regression, cross-browser, visual |
 | 🔌 **API** | Playwright APIRequestContext | REST, schema validation, contract |
-| 📱 **Mobile** | Appium 2.x | iOS & Android native/hybrid apps |
+| 📱 **Mobile** | Appium 3.x + UiAutomator2 | Android native apps on real emulators |
+| 🔄 **E2E** | Playwright + WebdriverIO | Cross-layer end-to-end flows |
 | ☁️ **Cloud** | BrowserStack | Real devices & browsers at scale |
 
 ---
@@ -45,16 +47,16 @@ This framework demonstrates how a single repository can serve as the backbone fo
 ```
 ┌─────────────────────────────────────────────────┐
 │              TEST SUITES LAYER                  │
-│     Web Tests │ API Tests │ Mobile Tests        │
+│  Web Tests │ API Tests │ Mobile Tests │ E2E     │
 ├─────────────────────────────────────────────────┤
 │              PAGE OBJECT MODEL                  │
-│   Pages │ Components │ Screens │ API Clients    │
+│  Pages │ Components │ Screens │ API Clients     │
 ├─────────────────────────────────────────────────┤
 │              CORE FRAMEWORK                     │
 │  Base Classes │ DI Container │ Interfaces       │
 ├─────────────────────────────────────────────────┤
 │              SHARED UTILITIES                   │
-│   Helpers │ Constants │ Types │ Faker Data      │
+│   Helpers │ Constants │ Types │ Data Factories  │
 ├─────────────────────────────────────────────────┤
 │              CONFIG LAYER                       │
 │    Dev │ QA │ Staging │ BrowserStack            │
@@ -68,12 +70,13 @@ This framework demonstrates how a single repository can serve as the backbone fo
 |----------|-----------|---------|
 | Language | TypeScript 5.x | Type-safe test development |
 | Web Testing | Playwright 1.60 | Cross-browser automation |
-| Mobile Testing | Appium 2.x | iOS & Android automation |
+| Mobile Testing | Appium 3.4.2 + UiAutomator2 | Android automation |
+| Mobile Client | WebdriverIO | Appium session management |
 | Reporting | Allure Reports | Visual test reporting |
 | Cloud Testing | BrowserStack | Real device testing |
-| Data Generation | Faker.js | Dynamic test data |
+| Data Generation | Custom Factories | Dynamic test data |
 | CI/CD | GitHub Actions | Automated pipelines |
-| Pattern | Page Object Model | Maintainable test structure |
+| Pattern | Page/Screen Object Model | Maintainable test structure |
 | Architecture | SOLID Principles | Scalable framework design |
 
 ---
@@ -99,8 +102,8 @@ qa-multipurpose-framework/
 │   │   ├── di/             # Dependency injection
 │   │   └── interfaces/     # TypeScript interfaces
 │   └── 📁 shared/
-│       ├── utils/          # Utility functions
-│       ├── helpers/        # Test helpers
+│       ├── utils/          # Data factories
+│       ├── helpers/        # Utility functions
 │       ├── constants/      # Global constants
 │       └── types/          # Shared TypeScript types
 ├── 📁 config/
@@ -127,7 +130,7 @@ qa-multipurpose-framework/
 - Node.js 18+
 - npm 9+
 - Java 11+ (for Appium)
-- Android Studio / Xcode (for mobile)
+- Android Studio + Emulator (for mobile)
 
 ### Installation
 
@@ -157,10 +160,7 @@ npm run test:web
 # API tests
 npm run test:api
 
-# Mobile tests
-npm run test:mobile
-
-# Full E2E suite
+# E2E tests
 npm run test:e2e
 
 # All tests
@@ -175,6 +175,60 @@ npm run test:staging
 
 # Cloud (BrowserStack)
 npm run test:browserstack
+```
+
+---
+
+## 📱 Mobile Testing
+
+This framework includes full Android automation using **Appium 3.x** with the **UiAutomator2** driver, following the **Screen Object Model** pattern.
+
+### Setup
+
+```bash
+# Install Appium globally
+npm install -g appium
+
+# Install Android driver
+appium driver install uiautomator2
+```
+
+### Running Mobile Tests
+
+```bash
+# 1. Start Android emulator from Android Studio Device Manager
+
+# 2. Start Appium server
+appium
+
+# 3. Run mobile tests in a new terminal
+MOBILE=true npx playwright test tests/mobile --project=mobile-chrome
+```
+
+### Mobile Capabilities (Pixel 8 - Android 17)
+
+```typescript
+{
+  platformName: 'Android',
+  'appium:automationName': 'UiAutomator2',
+  'appium:deviceName': 'emulator-5554',
+  'appium:platformVersion': '17.0',
+  'appium:appPackage': 'com.android.settings',
+  'appium:appActivity': '.Settings',
+}
+```
+
+### Screen Object Pattern
+
+```typescript
+// Every screen extends a base class
+export class HomeScreen {
+  constructor(private driver: Browser) {}
+
+  async isAppLoaded(): Promise<boolean> { ... }
+  async getCurrentPackage(): Promise<string> { ... }
+  async getCurrentActivity(): Promise<string> { ... }
+}
 ```
 
 ---
@@ -211,7 +265,7 @@ npm run allure:serve
 GitHub Actions pipelines run automatically on every push and pull request:
 
 - ✅ TypeScript compilation check
-- ✅ Web tests on Chromium, Firefox & WebKit
+- ✅ Web tests on Chromium, Firefox & WebKit in parallel
 - ✅ API tests
 - ✅ Allure report generation
 - ✅ Test results published as artifacts
@@ -223,11 +277,20 @@ GitHub Actions pipelines run automatically on every push and pull request:
 | Pattern | Application |
 |---------|-------------|
 | **Page Object Model** | Every UI screen has its own class |
+| **Screen Object Model** | Every mobile screen has its own class |
 | **Factory Pattern** | Dynamic test data generation |
 | **Singleton** | Driver/browser instance management |
 | **Dependency Injection** | Decoupled service layer |
 | **Strategy Pattern** | Environment-based configuration |
 | **Builder Pattern** | API request construction |
+
+---
+
+## 📚 Documentation
+
+- [Architecture Guide](docs/architecture/ARCHITECTURE.md)
+- [Contributing Guide](docs/guides/CONTRIBUTING.md)
+- [Environments Guide](docs/guides/ENVIRONMENTS.md)
 
 ---
 
