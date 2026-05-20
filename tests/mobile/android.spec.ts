@@ -1,5 +1,8 @@
+import { test, expect } from '@playwright/test'
 import { remote } from 'webdriverio'
 import { HomeScreen } from '../../src/mobile/screens'
+
+const isMobile = process.env.MOBILE === 'true'
 
 const capabilities = {
   platformName: 'Android',
@@ -11,39 +14,29 @@ const capabilities = {
   'appium:noReset': true,
 }
 
-const wdioConfig = {
-  hostname: '127.0.0.1',
-  port: 4723,
-  logLevel: 'silent' as const,
-  capabilities,
-}
+test.describe('@mobile @smoke Android Settings App', () => {
+  test.skip(!isMobile, 'Skipping mobile tests - set MOBILE=true to run')
 
-describe('@mobile @smoke Android Settings App', () => {
-  let driver: Awaited<ReturnType<typeof remote>>
-  let homeScreen: HomeScreen
+  test('should launch Settings app and validate package', async () => {
+    const driver = await remote({
+      hostname: '127.0.0.1',
+      port: 4723,
+      logLevel: 'silent',
+      capabilities,
+    })
 
-  before(async () => {
-    driver = await remote(wdioConfig)
-    homeScreen = new HomeScreen(driver)
-  })
+    try {
+      const screen = new HomeScreen(driver)
+      const isLoaded = await screen.isAppLoaded()
+      expect(isLoaded).toBeTruthy()
 
-  after(async () => {
-    if (driver) await driver.deleteSession()
-  })
+      const pkg = await screen.getCurrentPackage()
+      expect(pkg).toBe('com.android.settings')
 
-  it('should launch Settings app successfully', async () => {
-    const isLoaded = await homeScreen.isAppLoaded()
-    if (!isLoaded) throw new Error('App did not load')
-  })
-
-  it('should be on the correct package', async () => {
-    const pkg = await homeScreen.getCurrentPackage()
-    if (pkg !== 'com.android.settings') throw new Error('Wrong package: ' + pkg)
-  })
-
-  it('should get current activity', async () => {
-    const activity = await homeScreen.getCurrentActivity()
-    if (!activity) throw new Error('No activity found')
-    console.log('Current activity:', activity)
+      const activity = await screen.getCurrentActivity()
+      expect(activity).toBeTruthy()
+    } finally {
+      await driver.deleteSession()
+    }
   })
 })
