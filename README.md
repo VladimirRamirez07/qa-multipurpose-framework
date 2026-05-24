@@ -9,6 +9,7 @@
 ![BrowserStack](https://img.shields.io/badge/BrowserStack-Integrated-f48024?style=for-the-badge&logo=browserstack&logoColor=white)
 ![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vladimir-ram%C3%ADrez-303a433ba)
 ![CI/CD Status](https://github.com/VladimirRamirez07/qa-multipurpose-framework/actions/workflows/ci.yml/badge.svg)
 
 ---
