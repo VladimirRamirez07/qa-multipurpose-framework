@@ -182,7 +182,7 @@ npm run test:browserstack
 
 ## 📱 Mobile Testing
 
-This framework includes full Android automation using **Appium 3.x** with the **UiAutomator2** driver, following the **Screen Object Model** pattern.
+This framework includes full Android automation using **Appium 3.x** with the **UiAutomator2** driver, following the **Screen Object Model** pattern
 
 ### Setup
 
