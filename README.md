@@ -236,7 +236,7 @@ export class HomeScreen {
 
 ## 📊 Reporting
 
-This framework uses **Allure Reports** for rich, interactive test reporting with screenshots, videos, and step-by-step logs
+This framework uses **Allure Reports** for rich, interactive test reporting with screenshots, videos, and step-by-step logs.
 
 ```bash
 # Generate report
